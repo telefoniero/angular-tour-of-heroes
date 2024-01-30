@@ -8,7 +8,7 @@ import { HEROES } from '../mock-heroes';
   styleUrl: './heroes.component.scss',
 })
 export class HeroesComponent {
-  selectedHero: Hero | undefined;
+  selectedHero?: Hero;
   onSelect(hero: Hero) {
     this.selectedHero = hero;
   }
