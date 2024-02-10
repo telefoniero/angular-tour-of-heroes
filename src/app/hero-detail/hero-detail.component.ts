@@ -30,4 +30,8 @@ export class HeroDetailComponent {
   goBack() {
     this.location.back();
   }
+
+  save() {
+    this.heroService.updateHero(this.hero!).subscribe(() => this.goBack());
+  }
 }
