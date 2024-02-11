@@ -48,6 +48,31 @@ export class HeroService {
     );
   }
 
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
+      tap((newHero) => this.log(`added hero w/ id=${newHero.id}`)),
+      catchError(this.handleError<Hero>('addHero'))
+    );
+  }
+
+  deleteHero(hero: Hero): Observable<Hero> {
+    const url = `${this.heroesUrl}/${hero.id}`;
+
+    return this.http.delete<Hero>(url, httpOptions).pipe(
+      tap(() => this.log(`deleted hero id=${hero.id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
+  }
+
+  searchHeroes(text: string): Observable<Hero[]> {
+    if (!text.trim()) return of([]);
+
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${text}`).pipe(
+      tap(() => this.log(`found heroes matching "${text}"`)),
+      catchError(this.handleError<Hero[]>('searchHeroes'))
+    );
+  }
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService
